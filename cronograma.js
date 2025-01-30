@@ -3,28 +3,29 @@ const meses = [
     "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
 ];
 
+// Mapeamento das matérias por mês
 const materias = {
-    fevereiro: {
-        1: "literatura", 2: "quimica", 3: "redacao", 4: "biologia", 5: "fisica", 6: "filosofia",
+    janeiro: { 5: "matematica", 10: "fisica", 15: "quimica" },
+    fevereiro: { 1: "literatura", 2: "quimica", 3: "redacao", 4: "biologia", 5: "fisica", 6: "filosofia",
         7: "matematica", 8: "literatura", 9: "quimica", 10: "biologia", 11: "geografia",
         12: "artes", 13: "fisica", 14: "quimica", 15: "ingles", 16: "biologia", 17: "historia",
         18: "matematica", 19: "literatura", 20: "quimica", 21: "geografia", 22: "redacao",
         23: "biologia", 24: "filosofia", 25: "matematica", 26: "quimica", 27: "portugues",
         28: "fisica"
     },
-    // Adicione aqui os outros meses com suas respectivas matérias
+    marco: { 3: "redacao", 7: "biologia", 12: "historia", 20: "matematica" },
+    // Adicione as matérias para os outros meses
 };
 
-let mesAtual = 1; // Começa em fevereiro (índice 1 no array)
+let mesAtual = 1; // Começa em fevereiro
 
 document.querySelector(".prev-month").addEventListener("click", () => mudarMes(-1));
 document.querySelector(".next-month").addEventListener("click", () => mudarMes(1));
 
 function mudarMes(direcao) {
     mesAtual += direcao;
-    if (mesAtual < 0) mesAtual = 11; // Se voltar antes de janeiro, vai para dezembro
-    if (mesAtual > 11) mesAtual = 0; // Se passar de dezembro, volta para janeiro
-
+    if (mesAtual < 0) mesAtual = 11;
+    if (mesAtual > 11) mesAtual = 0;
     atualizarCalendario();
 }
 
@@ -35,19 +36,22 @@ function atualizarCalendario() {
     const tbody = document.querySelector(".calendar-table tbody");
     tbody.innerHTML = ""; // Limpa a tabela
 
-    let primeiroDiaSemana = new Date(2024, mesAtual, 1).getDay(); // Descobre o primeiro dia do mês
-    let totalDias = new Date(2024, mesAtual + 1, 0).getDate(); // Descobre quantos dias tem o mês
+    let primeiroDiaSemana = new Date(2024, mesAtual, 1).getDay();
+    let totalDias = new Date(2024, mesAtual + 1, 0).getDate();
 
     let novaLinha = "<tr>";
     for (let i = 0; i < primeiroDiaSemana; i++) {
-        novaLinha += "<td></td>"; // Espaços vazios antes do primeiro dia
+        novaLinha += "<td></td>";
     }
 
+    let nomeMes = meses[mesAtual].toLowerCase();
+    let materiasMes = materias[nomeMes] || {};
+
     for (let dia = 1; dia <= totalDias; dia++) {
-        let classe = materias[meses[mesAtual].toLowerCase()]?.[dia] || "";
+        let classe = materiasMes[dia] || "";
         novaLinha += `<td class="${classe}">${dia}</td>`;
 
-        if ((primeiroDiaSemana + dia) % 7 === 0) { // Quebra de linha a cada domingo
+        if ((primeiroDiaSemana + dia) % 7 === 0) {
             novaLinha += "</tr><tr>";
         }
     }
@@ -56,5 +60,5 @@ function atualizarCalendario() {
     tbody.innerHTML = novaLinha;
 }
 
-// Inicializa o calendário ao carregar a página
+// Inicializa o calendário
 atualizarCalendario();
