@@ -6,14 +6,23 @@ body {
     align-items: center;
     justify-content: center;
     height: 100vh;
+    margin: 0;
+    padding: 0;
 }
 
+/* Cabeçalho do calendário fixo no topo */
 .calendar-header {
+    position: sticky;
+    top: 0;
+    background: white;
+    padding: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
-    margin-bottom: 20px;
+    width: 100%;
+    z-index: 10;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .nav-button {
@@ -40,6 +49,7 @@ body {
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
 }
 
 th, td {
@@ -69,3 +79,16 @@ td {
 .ingles { background: #ce93d8; }
 .historia { background: #ffcc80; }
 .portugues { background: #ef9a9a; }
+
+/* Responsividade */
+@media (max-width: 600px) {
+    .calendar-table {
+        font-size: 14px;
+    }
+    
+    .nav-button {
+        width: 35px;
+        height: 35px;
+        font-size: 18px;
+    }
+}
